@@ -16,7 +16,7 @@ services:
       ADMIN_PASSWORD: admin
 
       # Superset metadata DB
-      DATABASE_URL: mysql+pymysql://root:1234@host.docker.internal:3306/smarthealth_new
+      DATABASE_URL: mysql+pymysql://User:Password@host.docker.internal:3306/DB
 
       # Path to your configuration file
       SUPERSET_CONFIG_PATH: /app/superset_home/superset_config.py
@@ -57,35 +57,20 @@ services:
     build: ./llm_service
     container_name: llm_service
     environment:
-      GEMINI_API_KEY: ""
+      GEMINI_API_KEY: "YOUR GEMINI API KEY"
       MYSQL_HOST: host.docker.internal
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 1234
-      MYSQL_DB: smarthealth_new
+      MYSQL_USER: MYSQL_USER
+      MYSQL_PASSWORD: MYSQL_PASSWORD
+      MYSQL_DB: MYSQL_DB
     ports:
       - "5000:5001"
       - "5000:5001"
 
 
-#  ollama:
- #   image: ollama/ollama:latest
-  #  container_name: ollama
-   # ports:
-    #  - "11434:11434"
-   # volumes:
-    #  - ollama_data:/root/.ollama
-   # deploy:
-    #  resources:
-     #   limits:
-      #    memory: 4G
-       #   cpus: "2.0"
-   # networks:
-    #  - default
 
-# Keep your existing volumes and add ollama_data
 volumes:
   superset_home:
- # ollama_data:
+ 
 
 
 
