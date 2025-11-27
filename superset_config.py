@@ -1,5 +1,5 @@
 # superset_home/superset_config.py
-SECRET_KEY = "MiQFLpKnC/qtHk5jPUb1Q1ZtPoBGkd0d1vfD5M/kFQwroGdWB0NrQEXc"
+SECRET_KEY = "GENERATE YOUR SECRET KEY AND PASTE HERE"
 
 # Custom branding
 #APP_NAME = "Smart International Application"
