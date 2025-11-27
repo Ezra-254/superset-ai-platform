@@ -26,9 +26,9 @@ genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 MYSQL_HOST = os.getenv("MYSQL_HOST", "host.docker.internal")
-MYSQL_USER = os.getenv("MYSQL_USER", "root")
-MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "1234")
-MYSQL_DB = os.getenv("MYSQL_DB", "smarthealth_new")
+MYSQL_USER = os.getenv("MYSQL_USER", "MYSQL_USER")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "MSQL_PASSWORD")
+MYSQL_DB = os.getenv("MYSQL_DB", "MYSQL_DB")
 
 # ——— DYNAMIC SCHEMA LOADER ———
 try:
@@ -39,7 +39,7 @@ try:
         database=MYSQL_DB
     )
     cur = conn.cursor()
-    cur.execute("SHOW COLUMNS FROM patient_master_new")
+    cur.execute("SHOW COLUMNS FROM MYSQL TABLE")
     cols = cur.fetchall()
     schema_lines = [f"  • {col[0]} ({col[1]})" for col in cols]
     DYNAMIC_SCHEMA = "\n".join(schema_lines)
@@ -220,7 +220,7 @@ Top Diagnoses:
 [continue with each item on a new line]
 
 FOR SINGLE VALUES (like totals, counts, etc.):
-Total revenue: KES 666,870,587.92
+Total revenue: KES 666,870
 
 RULES:
 - Each numbered item MUST be on its own line
