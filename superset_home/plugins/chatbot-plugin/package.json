@@ -1,0 +1,13 @@
+{
+  "name": "superset-chatbot-plugin",
+  "version": "1.0.0",
+  "description": "AI Chatbot for Superset",
+  "superset": {
+    "name": "chatbot-plugin",
+    "type": "component"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "@superset-ui/core": "^0.17.0"
+  }
+}

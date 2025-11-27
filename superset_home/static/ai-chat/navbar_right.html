@@ -1,0 +1,15 @@
+{% raw %}
+<li>
+  <a href="#" onclick="event.preventDefault();
+    const existing = document.getElementById('smart-ai-chat');
+    if(existing){existing.remove();return;}
+    const iframe = document.createElement('iframe');
+    iframe.id = 'smart-ai-chat';
+    iframe.src = '/static/ai-chat/index.html';
+    iframe.style.cssText = 'position:fixed;right:0;top:0;width:440px;height:100vh;border:none;border-left:3px solid #007bff;z-index:9999;box-shadow:-8px 0 30px rgba(0,0,0,0.5);background:#1a1a1a;';
+    document.body.appendChild(iframe);
+  ">
+    <i class="fa fa-robot"></i> AI Assistant
+  </a>
+</li>
+{% endraw %}

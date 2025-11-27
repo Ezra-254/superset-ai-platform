@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Superset Chatbot",
+  "version": "1.0",
+  "description": "AI Chatbot for Apache Superset",
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["http://localhost:8088/*"],
+      "js": ["chatbot.js"],
+      "run_at": "document_end"
+    }
+  ]
+}

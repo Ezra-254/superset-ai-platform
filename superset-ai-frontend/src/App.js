@@ -1,0 +1,304 @@
+import React, { useState, useEffect, useRef } from "react";
+import { Send, Loader2, History, X } from "lucide-react";
+import "./App.css";
+import SmartLogo from "./assets/smart-logo.jpg";
+
+export default function SmartAI() {
+  const [question, setQuestion] = useState("");
+  const [conversation, setConversation] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [welcomeText, setWelcomeText] = useState("");
+  const [queryHistory, setQueryHistory] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const chatEndRef = useRef(null);
+
+  const welcomeMessage = "Hi, I'm your AI Data Assistant. Ask me anything about your data.";
+
+  // Welcome message typing animation
+  useEffect(() => {
+    if (!showWelcome) return;
+
+    let currentIndex = 0;
+    const typeText = () => {
+      if (currentIndex <= welcomeMessage.length) {
+        setWelcomeText(welcomeMessage.substring(0, currentIndex));
+        currentIndex++;
+        setTimeout(typeText, 50);
+      } else {
+        setTimeout(() => {
+          setShowWelcome(false);
+        }, 1000);
+      }
+    };
+
+    typeText();
+  }, [showWelcome]);
+
+  // Auto-scroll to bottom of chat
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [conversation, loading]);
+
+  // Format response to clean numbering
+  const formatResponse = (text) => {
+    if (!text) return "No response.";
+    
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/(\d+)\.\s*\*\*/g, '$1. ')
+      .replace(/\*\*(\d+)\./g, '$1.')
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line.length > 0)
+      .join('\n');
+  };
+
+  const ask = async () => {
+    if (!question.trim()) return;
+
+    const userQuestion = question;
+    setQuestion("");
+    setLoading(true);
+
+    // Add user question to conversation
+    setConversation(prev => [...prev, { type: "user", content: userQuestion }]);
+
+    try {
+      const res = await fetch("http://localhost:5000/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ question: userQuestion })
+      });
+
+      const data = await res.json();
+      const formattedAnswer = formatResponse(data.answer);
+
+      // Add AI response to conversation
+      setConversation(prev => [...prev, {
+        type: "ai",
+        content: formattedAnswer,
+        rawQuestion: userQuestion
+      }]);
+
+      // Add to query history
+      setQueryHistory(prev => {
+        const existingIndex = prev.findIndex(item => item.question === userQuestion);
+        const newItem = {
+          question: userQuestion,
+          answer: formattedAnswer,
+          timestamp: new Date().toLocaleTimeString(),
+          date: new Date().toLocaleDateString()
+        };
+        
+        if (existingIndex >= 0) {
+          const updated = [...prev];
+          updated.splice(existingIndex, 1);
+          return [newItem, ...updated];
+        } else {
+          return [newItem, ...prev];
+        }
+      });
+
+    } catch (err) {
+      const errorMsg = "Error connecting to AI service.";
+      setConversation(prev => [...prev, {
+        type: "ai",
+        content: errorMsg
+      }]);
+    }
+
+    setLoading(false);
+  };
+
+  const loadHistoryItem = (historyItem) => {
+    setConversation([
+      { type: "user", content: historyItem.question },
+      { type: "ai", content: historyItem.answer }
+    ]);
+  };
+
+  // Group history by date
+  const groupedHistory = queryHistory.reduce((groups, item) => {
+    const date = item.date;
+    if (!groups[date]) {
+      groups[date] = [];
+    }
+    groups[date].push(item);
+    return groups;
+  }, {});
+
+  // Format date for display
+  const formatDateDisplay = (dateString) => {
+    const today = new Date().toLocaleDateString();
+    const yesterday = new Date(Date.now() - 86400000).toLocaleDateString();
+    
+    if (dateString === today) return "Today";
+    if (dateString === yesterday) return "Yesterday";
+    
+    const date = new Date(dateString);
+    const diffDays = Math.floor((new Date() - date) / (1000 * 60 * 60 * 24));
+    
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) return "7 days ago";
+    return "30 days ago";
+  };
+
+  return (
+    <div className="app-container">
+      {/* Sidebar - Query History */}
+      {sidebarOpen && (
+        <div className="sidebar">
+          <div className="sidebar-header">
+            <h2>Query History</h2>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="close-btn"
+            >
+              <X size={20} />
+            </button>
+          </div>
+          
+          <div className="sidebar-content">
+            {queryHistory.length === 0 ? (
+              <div className="empty-history">
+                No queries yet. Ask something!
+              </div>
+            ) : (
+              <div>
+                {Object.entries(groupedHistory).map(([date, items]) => (
+                  <div key={date} className="history-group">
+                    <h3 className="history-group-title">
+                      {formatDateDisplay(date)}
+                    </h3>
+                    <div>
+                      {items.map((item, index) => (
+                        <div
+                          key={index}
+                          onClick={() => loadHistoryItem(item)}
+                          className="history-item"
+                        >
+                          <div className="history-question">
+                            {item.question}
+                          </div>
+                          <div className="history-timestamp">
+                            {item.timestamp}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Main Chat Area */}
+      <div className="main-content">
+        {/* Header */}
+        <div className="header">
+          <div className="header-content">
+            {!sidebarOpen && (
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="history-btn"
+              >
+                <History size={20} />
+              </button>
+            )}
+            <div className="logo-title-container">
+              <img src={SmartLogo} alt="Smart Applications" className="header-logo" />
+              <h1>Smart Applications AI Assistant</h1>
+            </div>
+          </div>
+        </div>
+
+        {/* Chat Area */}
+        <div className="chat-area">
+          {/* Welcome Message */}
+          {showWelcome && (
+            <div className="welcome-container">
+              <div className="welcome-message">
+                <div className="welcome-content">
+                  <div className="ai-avatar">
+                    <span>AI</span>
+                  </div>
+                  <div className="welcome-text">
+                    {welcomeText}
+                    <span className="blinking-cursor">|</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Conversation History */}
+          {conversation.map((msg, index) => (
+            <div
+              key={index}
+              className={`message-container ${msg.type === "user" ? "user-message" : "ai-message"}`}
+            >
+              <div className={`message-bubble ${msg.type === "user" ? "user-bubble" : "ai-bubble"}`}>
+                {msg.type === "ai" && (
+                  <div className="ai-header">
+                    <div className="ai-avatar-small">
+                      <span>AI</span>
+                    </div>
+                    <span className="ai-label">Assistant</span>
+                  </div>
+                )}
+                <div className="message-content">
+                  {msg.content}
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Loading Indicator */}
+          {loading && (
+            <div className="message-container ai-message">
+              <div className="message-bubble ai-bubble">
+                <div className="loading-indicator">
+                  <Loader2 className="spinner" size={24} />
+                  <span>Thinking...</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div ref={chatEndRef} />
+        </div>
+
+        {/* Input Area */}
+        <div className="input-area">
+          <div className="input-container">
+            <input
+              type="text"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && ask()}
+              placeholder="Ask a question about your data..."
+              className="question-input"
+            />
+            <button
+              onClick={ask}
+              disabled={loading || !question.trim()}
+              className="send-button"
+            >
+              {loading ? (
+                <Loader2 className="spinner" size={20} />
+              ) : (
+                <Send size={20} />
+              )}
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

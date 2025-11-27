@@ -1,0 +1,12 @@
+DO NOT USE ANY OTHER TABLES. ONLY USE: patient_master_new
+
+This is the EXACT current schema of patient_master_new (updated live from the database):
+
+{{DYNAMIC_SCHEMA}}
+
+INSTRUCTIONS:
+- Use ONLY the table patient_master_new
+- Pick the most relevant columns from the list above that answer the user's question
+- Never invent JOINs or other tables
+- Always add LIMIT 100
+- Return only raw SQL

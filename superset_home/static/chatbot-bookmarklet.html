@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Superset Chatbot Bookmarklet</title>
+</head>
+<body>
+    <h1>Superset Chatbot Bookmarklet</h1>
+    <p>Drag this link to your bookmarks bar:</p>
+    <a href="javascript:(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/gh/hchiam/learning@d4d4db8/bookmarklet.js';document.body.appendChild(s);})();">Superset Chatbot</a>
+    
+    <p>Or use this code as a bookmark:</p>
+    <code>
+    javascript:(function(){var script=document.createElement('script');script.innerHTML='// Simple chatbot injector\n(function(){var chat=document.createElement("div");chat.innerHTML=\'<div style="position:fixed;bottom:20px;right:20px;width:350px;height:500px;background:white;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:flex;flex-direction:column;z-index:10000;font-family:system-ui"><div style="background:#3366CC;color:white;padding:15px;border-radius:10px 10px 0 0;font-weight:bold;display:flex;justify-content:space-between;align-items:center"><span>🤖 AI Assistant</span><button id="chat-toggle" style="background:none;border:none;color:white;cursor:pointer;font-size:16px">−</button></div><div id="chat-messages" style="flex:1;padding:15px;overflow-y:auto;display:flex;flex-direction:column;gap:10px"><div style="padding:10px 15px;border-radius:18px;background:#f1f1f1;color:#333;align-self:flex-start;max-width:80%">Hello! How can I help?</div></div><div style="padding:15px;border-top:1px solid #e0e0e0;display:flex;gap:10px"><input type="text" id="chat-input" placeholder="Ask about data..." style="flex:1;padding:12px;border:1px solid #ddd;border-radius:20px;outline:none;font-size:14px"><button id="chat-send" style="background:#3366CC;color:white;border:none;border-radius:20px;padding:0 20px;cursor:pointer;font-weight:bold">Send</button></div></div>\';document.body.appendChild(chat);var m=!1,t=document.getElementById("chat-toggle"),ms=document.getElementById("chat-messages"),i=document.getElementById("chat-input"),s=document.getElementById("chat-send");t.addEventListener("click",function(){m?(chat.style.height="500px",ms.style.display="flex",i.parentElement.style.display="flex",t.textContent="−",m=!1):(chat.style.height="auto",ms.style.display="none",i.parentElement.style.display="none",t.textContent="+",m=!0)});function e(){var t=i.value.trim();if(t){var e=document.createElement("div");e.style.cssText="padding:10px 15px;border-radius:18px;background:#3366CC;color:white;align-self:flex-end;max-width:80%;word-wrap:break-word",e.textContent=t,ms.appendChild(e),i.value="",setTimeout(function(){var t=document.createElement("div");t.style.cssText="padding:10px 15px;border-radius:18px;background:#f1f1f1;color:#333;align-self:flex-start;max-width:80%;word-wrap:break-word",t.textContent=\"I'm a demo chatbot!\",ms.appendChild(t),ms.scrollTop=ms.scrollHeight},1e3),ms.scrollTop=ms.scrollHeight}}s.addEventListener("click",e),i.addEventListener("keypress",function(t){"Enter"===t.key&&e()});})();';document.body.appendChild(script);})();
+    </code>
+</body>
+</html>

@@ -1,0 +1,433 @@
+/* Smart Applications Brand Colors */
+:root {
+  --smart-navy: #1a365d;     /* Dark blue from header */
+  --smart-blue: #2563eb;     /* Bright blue from buttons */
+  --smart-light-blue: #3b82f6; /* Lighter blue accents */
+  --smart-white: #ffffff;
+  --smart-light-gray: #f8fafc;
+  --smart-dark-gray: #374151;
+}
+
+/* Custom CSS for the chat interface */
+.app-container {
+  display: flex;
+  height: 100vh;
+  background-color: var(--smart-light-gray);
+  color: #1f2937;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Logo Styles */
+.logo-title-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 320px;
+  background-color: var(--smart-white);
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--smart-navy);
+}
+
+.sidebar-header h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--smart-white);
+}
+
+.close-btn {
+  color: var(--smart-white);
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.close-btn:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: var(--smart-white);
+}
+
+.empty-history {
+  color: #6b7280;
+  text-align: center;
+  padding: 1rem;
+}
+
+.history-group {
+  margin-bottom: 1.5rem;
+}
+
+.history-group-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--smart-navy);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.history-item {
+  padding: 0.75rem;
+  background-color: var(--smart-white);
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s;
+  border-left: 4px solid transparent;
+}
+
+.history-item:hover {
+  background-color: #f3f4f6;
+  border-left-color: var(--smart-blue);
+  transform: translateX(2px);
+}
+
+.history-question {
+  color: #1f2937;
+  font-size: 0.875rem;
+  font-weight: 500;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.history-timestamp {
+  color: #6b7280;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background-color: var(--smart-navy);
+  border-bottom: 1px solid #1e40af;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.history-btn {
+  color: var(--smart-white);
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.history-btn:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--smart-white);
+}
+
+/* Chat Area */
+.chat-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background-color: var(--smart-light-gray);
+}
+
+.welcome-container {
+  display: flex;
+  justify-content: center;
+}
+
+.welcome-message {
+  background: linear-gradient(135deg, var(--smart-blue), var(--smart-light-blue));
+  color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  max-width: 42rem;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+
+.welcome-content {
+  display: flex;
+  align-items: center;
+}
+
+.ai-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.ai-avatar span {
+  color: var(--smart-blue);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.welcome-text {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.blinking-cursor {
+  animation: blink 1s infinite;
+  margin-left: 0.125rem;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Message Styles */
+.message-container {
+  display: flex;
+  width: 100%;
+}
+
+.user-message {
+  justify-content: flex-end;
+}
+
+.ai-message {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 42rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-bubble {
+  background: linear-gradient(135deg, var(--smart-blue), var(--smart-light-blue));
+  color: white;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.ai-bubble {
+  background-color: var(--smart-white);
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.ai-avatar-small {
+  width: 2rem;
+  height: 2rem;
+  background: linear-gradient(135deg, var(--smart-blue), var(--smart-light-blue));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+}
+
+.ai-avatar-small span {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.ai-label {
+  color: var(--smart-blue);
+  font-weight: 600;
+}
+
+.message-content {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  font-size: 1.125rem;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--smart-blue);
+  font-weight: 500;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  color: var(--smart-blue);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Input Area */
+.input-area {
+  background-color: var(--smart-white);
+  border-top: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.input-container {
+  max-width: 56rem;
+  margin: 0 auto;
+  display: flex;
+  gap: 1rem;
+}
+
+.question-input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--smart-white);
+  border: 2px solid #e5e7eb;
+  color: #1f2937;
+  font-size: 1.125rem;
+  transition: all 0.2s;
+}
+
+.question-input:focus {
+  outline: none;
+  border-color: var(--smart-blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.question-input::placeholder {
+  color: #9ca3af;
+}
+
+.send-button {
+  background: linear-gradient(135deg, var(--smart-blue), var(--smart-light-blue));
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+}
+
+.send-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.4);
+}
+
+.send-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Scrollbar */
+.chat-area::-webkit-scrollbar,
+.sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-area::-webkit-scrollbar-track,
+.sidebar-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.chat-area::-webkit-scrollbar-thumb,
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.chat-area::-webkit-scrollbar-thumb:hover,
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 280px;
+    position: absolute;
+    z-index: 1000;
+    height: 100%;
+  }
+  
+  .logo-title-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .header-logo {
+    height: 32px;
+  }
+  
+  .header h1 {
+    font-size: 1.125rem;
+  }
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Superset Chatbot</title>
+    <style>
+        #superset-chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            z-index: 10000;
+            font-family: system-ui;
+        }
+        .chat-header {
+            background: #3366CC;
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .message {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background: #3366CC;
+            color: white;
+            align-self: flex-end;
+        }
+        .ai-message {
+            background: #f1f1f1;
+            color: #333;
+            align-self: flex-start;
+        }
+        .chat-input-container {
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+        }
+        .send-button {
+            background: #3366CC;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 0 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="superset-chatbot">
+        <div class="chat-header">
+            <span>🤖 AI Assistant</span>
+            <button id="chatbot-toggle" style="background: none; border: none; color: white; cursor: pointer; font-size: 16px;">−</button>
+        </div>
+        <div id="chatbot-messages" class="chat-messages">
+            <div class="message ai-message">
+                Hello! I'm your Superset AI assistant. How can I help you today?
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="chatbot-input" class="chat-input" placeholder="Ask about your data...">
+            <button id="chatbot-send" class="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        let isMinimized = false;
+        const chatbot = document.getElementById('superset-chatbot');
+        const toggleBtn = document.getElementById('chatbot-toggle');
+        const messages = document.getElementById('chatbot-messages');
+        const input = document.getElementById('chatbot-input');
+        const sendBtn = document.getElementById('chatbot-send');
+        
+        toggleBtn.addEventListener('click', function() {
+            if (isMinimized) {
+                chatbot.style.height = '500px';
+                messages.style.display = 'flex';
+                input.parentElement.style.display = 'flex';
+                toggleBtn.textContent = '−';
+                isMinimized = false;
+            } else {
+                chatbot.style.height = 'auto';
+                messages.style.display = 'none';
+                input.parentElement.style.display = 'none';
+                toggleBtn.textContent = '+';
+                isMinimized = true;
+            }
+        });
+        
+        function sendMessage() {
+            const text = input.value.trim();
+            if (!text) return;
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user-message';
+            userMsg.textContent = text;
+            messages.appendChild(userMsg);
+            
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'message ai-message';
+                aiMsg.textContent = "I'm a demo chatbot. We'll connect to Gemini AI soon!";
+                messages.appendChild(aiMsg);
+                messages.scrollTop = messages.scrollHeight;
+            }, 1000);
+            
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>

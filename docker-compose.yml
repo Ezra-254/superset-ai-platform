@@ -1,0 +1,91 @@
+version: "3.9"
+
+services:
+  superset:
+    build: ./superset-custom          # Build custom Superset with PyMySQL
+    container_name: superset
+
+    environment:
+      SUPERSET_ENV: production
+
+      # Admin user
+      ADMIN_USERNAME: admin
+      ADMIN_FIRSTNAME: Admin
+      ADMIN_LASTNAME: Admin
+      ADMIN_EMAIL: admin@superset.local
+      ADMIN_PASSWORD: admin
+
+      # Superset metadata DB
+      DATABASE_URL: mysql+pymysql://root:1234@host.docker.internal:3306/smarthealth_new
+
+      # Path to your configuration file
+      SUPERSET_CONFIG_PATH: /app/superset_home/superset_config.py
+
+    ports:
+      - "8088:8088"
+
+    volumes:
+      - ./superset_home:/app/superset_home   # Persist dashboards, configs, logs
+      - ./superset_home/static:/app/superset/static/assets
+      - ./superset_home/superset_config.py:/app/superset_home/superset_config.py
+
+    command: >
+      /bin/sh -c "
+      # Activate the virtual environment
+      . /app/.venv/bin/activate &&
+      
+      # Upgrade pip, setuptools, wheel
+      python -m pip install --upgrade pip setuptools wheel &&
+
+      # Upgrade/install required DB drivers in the venv
+      pip install --no-cache-dir pymysql mysqlclient &&
+
+      # Initialize Superset
+      superset db upgrade &&
+      superset fab create-admin \
+        --username admin \
+        --firstname Admin \
+        --lastname Admin \
+        --email admin@superset.local \
+        --password admin || true &&
+      superset init &&
+      cp -r /app/superset_home/static/* /app/pythonpath/superset/static/ || true &&
+      superset run -h 0.0.0.0 -p 8088 --with-threads
+      "
+
+  llm_service:
+    build: ./llm_service
+    container_name: llm_service
+    environment:
+      GEMINI_API_KEY: ""
+      MYSQL_HOST: host.docker.internal
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 1234
+      MYSQL_DB: smarthealth_new
+    ports:
+      - "5000:5001"
+      - "5000:5001"
+
+
+#  ollama:
+ #   image: ollama/ollama:latest
+  #  container_name: ollama
+   # ports:
+    #  - "11434:11434"
+   # volumes:
+    #  - ollama_data:/root/.ollama
+   # deploy:
+    #  resources:
+     #   limits:
+      #    memory: 4G
+       #   cpus: "2.0"
+   # networks:
+    #  - default
+
+# Keep your existing volumes and add ollama_data
+volumes:
+  superset_home:
+ # ollama_data:
+
+
+

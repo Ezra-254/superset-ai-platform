@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body{margin:0;background:#1a1a1a;color:white;font-family:system-ui}
+    .btn{position:fixed;top:20px;right:20px;background:#007bff;padding:14px 20px;border-radius:50px;font-weight:bold;cursor:pointer;z-index:999999;box-shadow:0 4px 20px rgba(0,0,0,0.5);font-size:15px}
+  </style>
+</head>
+<body>
+  <div class="btn" onclick="document.getElementById('smart-ai-chat')?document.getElementById('smart-ai-chat').remove():(()=>{const f=document.createElement('iframe');f.id='smart-ai-chat';f.src='/static/ai-chat/index.html';f.style='position:fixed;right:0;top:0;width:440px;height:100vh;border:none;border-left:3px solid #007bff;z-index:99999;box-shadow:-10px 0 30px rgba(0,0,0,0.7)';document.body.appendChild(f)})()">
+    AI Assistant
+  </div>
+  <div style="padding:40px;text-align:center">
+    <h1>Your AI Assistant is ready</h1>
+    <p>Open this page anytime → the blue button will appear on any Superset tab</p>
+  </div>
+</body>
+</html>
